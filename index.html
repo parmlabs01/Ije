@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ije — Transport Wallet</title>
+<style>
+  :root{
+    --green-deep:#0b5c3c;
+    --green-mid:#0e7048;
+    --green-bright:#3aa856;
+    --yellow:#f4c430;
+    --yellow-soft:#fce8a8;
+    --ink:#0c2a1d;
+    --paper:#f4faf6;
+    --card:#ffffff;
+    --muted:#5c7568;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:var(--paper);
+    display:flex;
+    justify-content:center;
+    color:var(--ink);
+  }
+  .phone{
+    width:100%;
+    max-width:420px;
+    min-height:100vh;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ---- Splash ---- */
+  #splash{
+    position:fixed;
+    inset:0;
+    background:var(--green-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #splash.hide{opacity:0; visibility:hidden;}
+  .splash-logo{
+    font-size:64px;
+    font-weight:800;
+    color:var(--yellow);
+    letter-spacing:-2px;
+    display:flex;
+    align-items:baseline;
+  }
+  .splash-logo .swoosh{
+    display:inline-block;
+    transform:translateY(4px);
+  }
+
+  /* ---- Header ---- */
+  header{
+    padding:18px 20px 0;
+    position:relative;
+  }
+  .top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+  }
+  .greeting p{
+    margin:0;
+    font-size:14px;
+    color:var(--muted);
+  }
+  .greeting h1{
+    margin:2px 0 6px;
+    font-size:26px;
+    font-weight:800;
+    color:var(--green-deep);
+  }
+  .location{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:13px;
+    color:var(--muted);
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    padding:0;
+  }
+  .icon-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .icon-btn{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:#eaf4ee;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    border:none;
+    cursor:pointer;
+    color:var(--green-deep);
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:6px;right:7px;
+    width:8px;height:8px;
+    background:var(--yellow);
+    border-radius:50%;
+  }
+
+  /* ---- Wallet card ---- */
+  .bus-strip{
+    margin-top:10px;
+    height:110px;
+    border-radius:16px;
+    background:linear-gradient(120deg,#cfe9d8,#eaf7ec);
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-end;
+    overflow:hidden;
+    font-size:44px;
+  }
+  .bus-emoji{margin:0 18px 6px 0;}
+
+  .wallet-card{
+    margin-top:-14px;
+    background:linear-gradient(135deg, var(--green-mid), var(--green-deep) 70%);
+    border-radius:20px;
+    padding:20px;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 12px 24px -8px rgba(11,92,60,.45);
+  }
+  .wallet-card::after{
+    content:"";
+    position:absolute;
+    right:-40px;bottom:-40px;
+    width:150px;height:150px;
+    background:var(--yellow);
+    opacity:.18;
+    border-radius:40% 60% 55% 45%;
+  }
+  .wallet-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .wallet-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
+    opacity:.95;
+  }
+  .wallet-icon{
+    width:34px;height:34px;
+    background:rgba(255,255,255,.18);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+  }
+  .eye-btn{
+    background:none;border:none;color:white;
+    opacity:.85; cursor:pointer; font-size:18px;
+  }
+  .balance{
+    font-size:34px;
+    font-weight:800;
+    margin:14px 0 18px;
+    letter-spacing:.5px;
+  }
+  .fund-btn{
+    background:var(--yellow);
+    color:var(--green-deep);
+    border:none;
+    padding:12px 22px;
+    border-radius:30px;
+    font-weight:700;
+    font-size:14px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    position:relative;
+    z-index:1;
+  }
+  .fund-btn:active{transform:scale(.97);}
+
+  /* ---- Feature cards ---- */
+  .features{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    padding:20px;
+  }
+  .feature-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:16px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #e7f0ea;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .feature-card:active{transform:scale(.97);}
+  .feature-card:nth-child(3){grid-column:1 / span 2;}
+  .feature-card::after{
+    content:"";
+    position:absolute;
+    right:-18px;bottom:-18px;
+    width:70px;height:70px;
+    background:var(--yellow-soft);
+    border-radius:40% 60% 50% 50%;
+    opacity:.7;
+  }
+  .feature-icon{
+    width:46px;height:46px;
+    background:#e6f5eb;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    margin-bottom:10px;
+    position:relative;
+    z-index:1;
+  }
+  .feature-card h3{
+    margin:0 0 4px;
+    font-size:16px;
+    color:var(--green-deep);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
+    z-index:1;
+  }
+  .feature-card p{
+    margin:0;
+    font-size:13px;
+    color:var(--muted);
+    position:relative;
+    z-index:1;
+    max-width:80%;
+  }
+  .arrow{color:var(--green-mid); font-size:18px;}
+
+  /* ---- Bottom nav ---- */
+  nav{
+    margin-top:auto;
+    display:flex;
+    justify-content:space-around;
+    padding:12px 0 22px;
+    border-top:1px solid #e7f0ea;
+    background:var(--card);
+    position:sticky;
+    bottom:0;
+  }
+  .nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
+    color:#9aa9a0;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .nav-item .ic{font-size:19px;}
+  .nav-item.active{color:var(--green-deep); font-weight:700;}
+  .nav-item.active .ic{color:var(--green-deep);}
+  .underline{
+    height:3px;width:20px;
+    background:var(--yellow);
+    border-radius:2px;
+    margin-top:2px;
+    visibility:hidden;
+  }
+  .nav-item.active .underline{visibility:visible;}
+
+  /* ---- Modal ---- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(6,30,18,.45);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+    z-index:40;
+  }
+  .overlay.show{opacity:1; visibility:visible;}
+  .sheet{
+    background:var(--card);
+    width:100%;
+    max-width:420px;
+    border-radius:22px 22px 0 0;
+    padding:24px 22px 28px;
+    transform:translateY(30px);
+    transition:transform .25s ease;
+  }
+  .overlay.show .sheet{transform:translateY(0);}
+  .sheet h2{margin:0 0 4px; color:var(--green-deep); font-size:19px;}
+  .sheet p{margin:0 0 18px; color:var(--muted); font-size:13px;}
+  .amount-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .chip{
+    flex:1;
+    padding:10px 0;
+    border-radius:10px;
+    border:1px solid #dcece1;
+    background:#f4faf6;
+    color:var(--green-deep);
+    font-weight:700;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .chip.selected{background:var(--green-deep); color:white; border-color:var(--green-deep);}
+  .confirm-btn{
+    width:100%;
+    padding:14px;
+    background:var(--yellow);
+    color:var(--green-deep);
+    border:none;
+    border-radius:14px;
+    font-weight:800;
+    font-size:15px;
+    cursor:pointer;
+  }
+  .cancel-link{
+    display:block;
+    text-align:center;
+    margin-top:12px;
+    color:var(--muted);
+    font-size:13px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+  }
+
+  .toast{
+    position:fixed;
+    bottom:110px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--green-deep);
+    color:white;
+    padding:12px 20px;
+    border-radius:30px;
+    font-size:13px;
+    opacity:0;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:60;
+    white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="splash-logo">ij<span class="swoosh">e</span></div>
+</div>
+
+<div class="phone">
+
+  <header>
+    <div class="top-row">
+      <div class="greeting">
+        <p>Good Morning,</p>
+        <h1>John</h1>
+        <button class="location">📍 Nsukka, Enugu State ▾</button>
+      </div>
+      <div class="icon-row">
+        <button class="icon-btn" aria-label="Notifications">🔔<span class="dot"></span></button>
+        <button class="icon-btn" aria-label="Account">👤</button>
+      </div>
+    </div>
+
+    <div class="bus-strip"><span class="bus-emoji">🚌</span></div>
+
+    <div class="wallet-card">
+      <div class="wallet-top">
+        <div class="wallet-label">
+          <span class="wallet-icon">👛</span>
+          Transport Wallet
+        </div>
+        <button class="eye-btn" id="eyeBtn" aria-label="Toggle balance visibility">👁️</button>
+      </div>
+      <div class="balance" id="balance">₦45,000.00</div>
+      <button class="fund-btn" id="fundBtn">＋ Fund Card</button>
+    </div>
+  </header>
+
+  <section class="features">
+    <div class="feature-card" data-toast="Opening bus booking…">
+      <div class="feature-icon">🚍</div>
+      <h3>Book Bus <span class="arrow">›</span></h3>
+      <p>Travel comfortably to your destination</p>
+    </div>
+    <div class="feature-card" data-toast="Opening students shuttle…">
+      <div class="feature-icon">🎓</div>
+      <h3>Students Shuttle <span class="arrow">›</span></h3>
+      <p>Safe and reliable campus transport</p>
+    </div>
+    <div class="feature-card" data-toast="Finding nearby terminals…">
+      <div class="feature-icon">🏢</div>
+      <h3>Terminals <span class="arrow">›</span></h3>
+      <p>Find nearby terminals and boarding points</p>
+    </div>
+  </section>
+
+  <nav>
+    <button class="nav-item active" data-tab="Home"><span class="ic">🏠</span>Home<span class="underline"></span></button>
+    <button class="nav-item" data-tab="Trips"><span class="ic">🎫</span>Trips<span class="underline"></span></button>
+    <button class="nav-item" data-tab="Wallet"><span class="ic">👛</span>Wallet<span class="underline"></span></button>
+    <button class="nav-item" data-tab="Account"><span class="ic">👤</span>Account<span class="underline"></span></button>
+  </nav>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <h2>Fund Transport Wallet</h2>
+    <p>Choose an amount to add to your card</p>
+    <div class="amount-row">
+      <button class="chip" data-amt="1000">₦1,000</button>
+      <button class="chip" data-amt="5000">₦5,000</button>
+      <button class="chip" data-amt="10000">₦10,000</button>
+    </div>
+    <button class="confirm-btn" id="confirmFund">Add Funds</button>
+    <button class="cancel-link" id="cancelFund">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Splash screen
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('splash').classList.add('hide'), 900);
+  });
+
+  // State
+  let balance = 45000;
+  let balanceVisible = true;
+  let selectedAmount = null;
+
+  const balanceEl = document.getElementById('balance');
+  const eyeBtn = document.getElementById('eyeBtn');
+  const overlay = document.getElementById('overlay');
+  const toast = document.getElementById('toast');
+
+  function formatNaira(n){
+    return '₦' + n.toLocaleString('en-NG', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function renderBalance(){
+    balanceEl.textContent = balanceVisible ? formatNaira(balance) : '₦••••••';
+  }
+  renderBalance();
+
+  eyeBtn.addEventListener('click', () => {
+    balanceVisible = !balanceVisible;
+    eyeBtn.textContent = balanceVisible ? '👁️' : '🙈';
+    renderBalance();
+  });
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  // Feature cards
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.addEventListener('click', () => showToast(card.dataset.toast));
+  });
+
+  // Bottom nav
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      if(item.dataset.tab !== 'Home') showToast(item.dataset.tab + ' — coming soon');
+    });
+  });
+
+  // Fund modal
+  document.getElementById('fundBtn').addEventListener('click', () => {
+    overlay.classList.add('show');
+    selectedAmount = null;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  });
+  document.getElementById('cancelFund').addEventListener('click', () => {
+    overlay.classList.remove('show');
+  });
+  overlay.addEventListener('click', (e) => {
+    if(e.target === overlay) overlay.classList.remove('show');
+  });
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedAmount = parseInt(chip.dataset.amt, 10);
+    });
+  });
+  document.getElementById('confirmFund').addEventListener('click', () => {
+    if(selectedAmount){
+      balance += selectedAmount;
+      renderBalance();
+      overlay.classList.remove('show');
+      showToast('Added ' + formatNaira(selectedAmount) + ' to wallet');
+    } else {
+      showToast('Please select an amount');
+    }
+  });
+</script>
+
+</body>
+</html>
