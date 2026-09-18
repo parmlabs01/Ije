@@ -362,4 +362,309 @@
 
   <nav id="bottomNav">
     <button class="nav-item active" data-tab="home"><span class="ic">🏠</span>Home</button>
-    <button class="nav-item" data-tab="wallet"><span class="ic">👛</span>
+    <button class="nav-item" data-tab="wallet"><span class="ic">👛</span>Wallet</button>
+    <button class="nav-item" data-tab="history"><span class="ic">🕘</span>History</button>
+    <button class="nav-item" data-tab="more"><span class="ic">⋯</span>More</button>
+  </nav>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <h2>Fund Transport Wallet</h2>
+    <p>Choose an amount to add to your card</p>
+    <div class="amount-row">
+      <button class="chip" data-amt="1000">₦1,000</button>
+      <button class="chip" data-amt="5000">₦5,000</button>
+      <button class="chip" data-amt="10000">₦10,000</button>
+    </div>
+    <button class="confirm-btn" id="confirmFund">Add Funds</button>
+    <button class="cancel-link" id="cancelFund">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ---------------- Data ---------------- */
+  const busRoutes = [
+    {id:'r1', from:'Nsukka', to:'Enugu', price:1500, duration:'1h 15m'},
+    {id:'r2', from:'Nsukka', to:'Onitsha', price:3000, duration:'2h 30m'},
+    {id:'r3', from:'Nsukka', to:'Awka', price:2500, duration:'2h'},
+    {id:'r4', from:'Nsukka', to:'Abuja', price:8000, duration:'6h'},
+  ];
+  const shuttleRoutes = [
+    {id:'s1', name:'Campus Gate → Hostel A', price:200},
+    {id:'s2', name:'Campus Gate → Hostel B', price:200},
+    {id:'s3', name:'Main Campus → Medical Campus', price:300},
+  ];
+  const servicesData = [
+    {icon:'📚', name:'Library Shuttle', desc:'Free rides to the library'},
+    {icon:'🏥', name:'Health Center', desc:'Book a ride to the clinic'},
+    {icon:'🛒', name:'Campus Store', desc:'Quick trip to the store'},
+  ];
+  const moreMenu = [
+    {icon:'👤', name:'Profile', desc:'Manage your personal info'},
+    {icon:'💳', name:'Payment Methods', desc:'Cards linked to your wallet'},
+    {icon:'🔔', name:'Notifications', desc:'Manage alerts'},
+    {icon:'❓', name:'Help & Support', desc:'Get assistance'},
+    {icon:'🚪', name:'Log Out', desc:'Sign out of ije'},
+  ];
+
+  /* ---------------- State ---------------- */
+  let state = { balance: 45000, trips: [], transactions: [] };
+  let balanceVisible = true;
+  let selected = { route:null, seat:null, takenSeats:null, shuttle:null };
+  const topLevel = ['home','wallet','history','more'];
+
+  /* ---------------- Helpers ---------------- */
+  function formatNaira(n){ return '₦' + n.toLocaleString('en-NG', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+  function formatDate(d){ return d.toLocaleDateString('en-NG',{day:'numeric',month:'short'}) + ' · ' + d.toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'}); }
+  function genTicket(){ return 'IJE-' + Math.random().toString(36).slice(2,7).toUpperCase(); }
+  function summaryRow(label,val){ return '<div class="summary-row"><span>'+label+'</span><span>'+val+'</span></div>'; }
+  function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+
+  function renderBalance(){
+    document.querySelectorAll('.balance-display').forEach(el => el.textContent = balanceVisible ? formatNaira(state.balance) : '₦••••••');
+    document.querySelectorAll('.eye-toggle-btn').forEach(btn => btn.innerHTML = balanceVisible ? '👁️ View Balance' : '🙈 Hide Balance');
+  }
+
+  /* ---------------- Screen router ---------------- */
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-'+id).classList.add('active');
+    document.getElementById('bottomNav').style.display = topLevel.includes(id) ? 'flex' : 'none';
+    if(topLevel.includes(id)){
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.tab === id));
+    }
+    window.scrollTo(0,0);
+    if(id === 'wallet') renderWallet();
+    if(id === 'history') renderHistory();
+    if(id === 'bus-seats') renderSeats();
+    if(id === 'bus-confirm') renderBusConfirm();
+    if(id === 'shuttle-confirm') renderShuttleConfirm();
+  }
+
+  /* ---------------- Book Bus flow ---------------- */
+  function renderBusRoutes(){
+    document.getElementById('busRoutesList').innerHTML = busRoutes.map(r => `
+      <div class="list-item" onclick="selectRoute('${r.id}')">
+        <div class="li-left"><div class="li-icon">🚌</div>
+          <div><div class="li-name">${r.from} → ${r.to}</div><div class="li-sub">${r.duration}</div></div>
+        </div>
+        <div class="li-price">₦${r.price.toLocaleString()}</div>
+      </div>`).join('');
+  }
+  function selectRoute(id){
+    selected.route = busRoutes.find(r => r.id === id);
+    selected.takenSeats = null;
+    showScreen('bus-seats');
+  }
+  function pickTaken(){
+    const arr=[]; while(arr.length<3){ const n=1+Math.floor(Math.random()*12); if(!arr.includes(n)) arr.push(n); } return arr;
+  }
+  function renderSeats(){
+    const r = selected.route;
+    document.getElementById('busRouteSummary').innerHTML =
+      summaryRow('Route', r.from+' → '+r.to) + summaryRow('Duration', r.duration) + summaryRow('Fare', '₦'+r.price.toLocaleString());
+    selected.seat = null;
+    document.getElementById('seatContinueBtn').disabled = true;
+    if(!selected.takenSeats) selected.takenSeats = pickTaken();
+    const grid = document.getElementById('seatGrid');
+    grid.innerHTML = '';
+    for(let i=1; i<=12; i++){
+      const isTaken = selected.takenSeats.includes(i);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'seat' + (isTaken ? ' taken' : '');
+      btn.textContent = i;
+      btn.disabled = isTaken;
+      btn.onclick = () => {
+        document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
+        btn.classList.add('selected');
+        selected.seat = i;
+        document.getElementById('seatContinueBtn').disabled = false;
+      };
+      grid.appendChild(btn);
+    }
+  }
+  function renderBusConfirm(){
+    const r = selected.route;
+    document.getElementById('busConfirmSummary').innerHTML =
+      summaryRow('Route', r.from+' → '+r.to) +
+      summaryRow('Seat', 'No. '+selected.seat) +
+      summaryRow('Wallet Balance', formatNaira(state.balance)) +
+      summaryRow('Total', formatNaira(r.price));
+  }
+  function payBus(){
+    const r = selected.route;
+    if(state.balance < r.price){ showToast('Insufficient balance — please fund your wallet'); return; }
+    state.balance -= r.price;
+    const ticket = genTicket();
+    state.transactions.unshift({desc:'Bus ticket: '+r.from+' → '+r.to, amount:r.price, type:'debit', date:new Date()});
+    state.trips.unshift({type:'Bus', title:r.from+' → '+r.to, sub:'Seat '+selected.seat, price:r.price, date:new Date(), code:ticket});
+    renderBalance();
+    document.getElementById('busSuccessSummary').innerHTML =
+      summaryRow('Route', r.from+' → '+r.to) +
+      summaryRow('Seat', 'No. '+selected.seat) +
+      summaryRow('Amount Paid', formatNaira(r.price)) +
+      summaryRow('Ticket Code', ticket);
+    showScreen('bus-success');
+  }
+
+  /* ---------------- Students Shuttle flow ---------------- */
+  function renderShuttleRoutes(){
+    document.getElementById('shuttleRoutesList').innerHTML = shuttleRoutes.map(s => `
+      <div class="list-item" onclick="selectShuttle('${s.id}')">
+        <div class="li-left"><div class="li-icon">🎓</div>
+          <div><div class="li-name">${s.name}</div><div class="li-sub">Campus shuttle</div></div>
+        </div>
+        <div class="li-price">₦${s.price.toLocaleString()}</div>
+      </div>`).join('');
+  }
+  function selectShuttle(id){
+    selected.shuttle = shuttleRoutes.find(s => s.id === id);
+    showScreen('shuttle-confirm');
+  }
+  function renderShuttleConfirm(){
+    const s = selected.shuttle;
+    document.getElementById('shuttleConfirmSummary').innerHTML =
+      summaryRow('Route', s.name) +
+      summaryRow('Wallet Balance', formatNaira(state.balance)) +
+      summaryRow('Total', formatNaira(s.price));
+  }
+  function payShuttle(){
+    const s = selected.shuttle;
+    if(state.balance < s.price){ showToast('Insufficient balance — please fund your wallet'); return; }
+    state.balance -= s.price;
+    const ticket = genTicket();
+    state.transactions.unshift({desc:'Shuttle: '+s.name, amount:s.price, type:'debit', date:new Date()});
+    state.trips.unshift({type:'Shuttle', title:s.name, sub:'Campus shuttle', price:s.price, date:new Date(), code:ticket});
+    renderBalance();
+    document.getElementById('shuttleSuccessSummary').innerHTML =
+      summaryRow('Route', s.name) +
+      summaryRow('Amount Paid', formatNaira(s.price)) +
+      summaryRow('Ticket Code', ticket);
+    showScreen('shuttle-success');
+  }
+
+  /* ---------------- Campus Services ---------------- */
+  function renderServices(){
+    document.getElementById('servicesList').innerHTML = servicesData.map(s => `
+      <div class="list-item" onclick="requestService('${s.name}')">
+        <div class="li-left"><div class="li-icon">${s.icon}</div>
+          <div><div class="li-name">${s.name}</div><div class="li-sub">${s.desc}</div></div>
+        </div>
+        <div class="arrow">›</div>
+      </div>`).join('');
+  }
+  function requestService(name){ showToast(name + " requested — you'll be notified when it arrives"); }
+
+  /* ---------------- Wallet tab ---------------- */
+  function renderWallet(){
+    renderBalance();
+    const list = document.getElementById('txList');
+    if(state.transactions.length === 0){
+      list.innerHTML = '<div class="empty-state"><div class="emoji">🧾</div><p>No transactions yet</p></div>';
+      return;
+    }
+    list.innerHTML = state.transactions.map(t => `
+      <div class="list-item" style="cursor:default;">
+        <div class="li-left">
+          <div class="li-icon" style="${t.type==='credit' ? '' : 'background:#fdeaea;color:var(--red);'}">${t.type==='credit' ? '＋' : '－'}</div>
+          <div><div class="li-name">${t.desc}</div><div class="li-sub">${formatDate(t.date)}</div></div>
+        </div>
+        <div class="li-price" style="${t.type==='credit' ? '' : 'color:var(--red);'}">${t.type==='credit' ? '+' : '-'}${formatNaira(t.amount)}</div>
+      </div>`).join('');
+  }
+
+  /* ---------------- History tab ---------------- */
+  function renderHistory(){
+    const list = document.getElementById('historyList');
+    if(state.trips.length === 0){
+      list.innerHTML = "<div class=\"empty-state\"><div class=\"emoji\">🎫</div><p>No trips yet.<br>Book your first ride!</p><button class=\"fund-btn\" onclick=\"showScreen('bus-routes')\">Book a Bus</button></div>";
+      return;
+    }
+    list.innerHTML = state.trips.map(t => `
+      <div class="list-item" style="cursor:default;">
+        <div class="li-left"><div class="li-icon">${t.type==='Bus' ? '🚌' : '🎓'}</div>
+          <div><div class="li-name">${t.title}</div><div class="li-sub">${t.sub} · ${formatDate(t.date)}</div></div>
+        </div>
+        <div class="li-price">${formatNaira(t.price)}</div>
+      </div>`).join('');
+  }
+
+  /* ---------------- More tab ---------------- */
+  function renderMore(){
+    document.getElementById('moreList').innerHTML = moreMenu.map(m => `
+      <div class="list-item" onclick="handleMoreClick('${m.name}')">
+        <div class="li-left"><div class="li-icon">${m.icon}</div>
+          <div><div class="li-name">${m.name}</div><div class="li-sub">${m.desc}</div></div>
+        </div>
+        <div class="arrow">›</div>
+      </div>`).join('');
+  }
+  function handleMoreClick(name){
+    if(name === 'Log Out'){
+      if(confirm('Log out of ije?')) location.reload();
+      return;
+    }
+    showToast(name + ' — coming soon');
+  }
+
+  /* ---------------- Nav + Fund modal (shared) ---------------- */
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => showScreen(item.dataset.tab));
+  });
+
+  const overlay = document.getElementById('overlay');
+  let selectedAmount = null;
+  document.querySelectorAll('.fund-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      overlay.classList.add('show');
+      selectedAmount = null;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    });
+  });
+  document.querySelectorAll('.eye-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => { balanceVisible = !balanceVisible; renderBalance(); });
+  });
+  document.getElementById('cancelFund').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('show'); });
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedAmount = parseInt(chip.dataset.amt, 10);
+    });
+  });
+  document.getElementById('confirmFund').addEventListener('click', () => {
+    if(selectedAmount){
+      state.balance += selectedAmount;
+      state.transactions.unshift({desc:'Wallet top-up', amount:selectedAmount, type:'credit', date:new Date()});
+      renderBalance();
+      overlay.classList.remove('show');
+      showToast('Added ' + formatNaira(selectedAmount) + ' to wallet');
+      if(document.getElementById('screen-wallet').classList.contains('active')) renderWallet();
+    } else {
+      showToast('Please select an amount');
+    }
+  });
+
+  /* ---------------- Init ---------------- */
+  setTimeout(() => {
+    const splash = document.getElementById('splash');
+    if(splash) splash.classList.add('hide');
+  }, 900);
+  try{
+    renderBusRoutes();
+    renderShuttleRoutes();
+    renderServices();
+    renderMore();
+    renderBalance();
+  }catch(e){
+    console.error('ije init error:', e);
+  }
+</script>
+
+</body>
+</html>
