@@ -12,7 +12,7 @@
     --yellow:#f5c518;
     --yellow-soft:#fbe28a;
     --ink:#0c2a1d;
-    --paper:#fdf35a;
+    --paper:#ffffff;
     --card:#ffffff;
     --muted:#6b8577;
     --muted-on-green:rgba(255,255,255,.78);
@@ -91,29 +91,29 @@
   /* ---- Feature cards ---- */
   .features{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:18px 18px 0; }
   .feature-card{
-    background:linear-gradient(155deg, var(--green-mid) 0%, var(--green-deep) 75%);
+    background:var(--card);
     border-radius:18px; padding:18px 16px; position:relative; overflow:hidden;
-    border:1px solid var(--green-deep); cursor:pointer; transition:transform .15s ease; min-height:150px;
+    border:1px solid #eaf2ec; cursor:pointer; transition:transform .15s ease; min-height:150px;
   }
   .feature-card:active{transform:scale(.97);}
-  .feature-card::after{ content:""; position:absolute; right:-16px;bottom:-16px; width:80px;height:80px; background:var(--yellow-soft); border-radius:50% 50% 10% 50%; opacity:.28; }
-  .feature-icon{ width:48px;height:48px; background:rgba(255,255,255,.16); border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:22px; margin-bottom:12px; position:relative; z-index:1; color:var(--yellow); }
-  .feature-card h3{ margin:0 0 6px; font-size:16px; font-weight:700; color:white; display:flex; align-items:center; gap:4px; position:relative; z-index:1; }
-  .feature-card p{ margin:0; font-size:12.5px; color:var(--muted-on-green); position:relative; z-index:1; max-width:85%; line-height:1.4; }
-  .arrow{color:var(--yellow); font-size:16px; font-weight:400;}
+  .feature-card::after{ content:""; position:absolute; right:-16px;bottom:-16px; width:80px;height:80px; background:var(--yellow-soft); border-radius:50% 50% 10% 50%; opacity:.85; }
+  .feature-icon{ width:48px;height:48px; background:#e3f3e8; border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:22px; margin-bottom:12px; position:relative; z-index:1; color:var(--green-deep); }
+  .feature-card h3{ margin:0 0 6px; font-size:16px; font-weight:700; color:var(--green-deep); display:flex; align-items:center; gap:4px; position:relative; z-index:1; }
+  .feature-card p{ margin:0; font-size:12.5px; color:var(--muted); position:relative; z-index:1; max-width:85%; line-height:1.4; }
+  .arrow{color:var(--green-mid); font-size:16px; font-weight:400;}
 
   /* ---- Wide card (campus services on home) ---- */
   .wide-card{
-    margin:14px 18px 0; background:linear-gradient(155deg, var(--green-mid) 0%, var(--green-deep) 75%);
+    margin:14px 18px 0; background:var(--card);
     border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px; position:relative; overflow:hidden;
-    border:1px solid var(--green-deep); cursor:pointer;
+    border:1px solid #eaf2ec; cursor:pointer;
   }
   .wide-card:active{transform:scale(.99);}
-  .wide-card::after{ content:""; position:absolute; right:-20px;bottom:-30px; width:100px;height:100px; background:var(--yellow-soft); border-radius:50%; opacity:.22; }
+  .wide-card::after{ content:""; position:absolute; right:-20px;bottom:-30px; width:100px;height:100px; background:var(--yellow-soft); border-radius:50%; opacity:.85; }
   .wide-card .feature-icon{margin-bottom:0; flex-shrink:0;}
   .wide-card .text{position:relative; z-index:1;}
-  .wide-card h3{margin:0 0 4px; font-size:16px; font-weight:700; color:white; display:flex; align-items:center; gap:4px;}
-  .wide-card p{margin:0; font-size:12.5px; color:var(--muted-on-green); line-height:1.4;}
+  .wide-card h3{margin:0 0 4px; font-size:16px; font-weight:700; color:var(--green-deep); display:flex; align-items:center; gap:4px;}
+  .wide-card p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.4;}
 
   /* ---- Safety banner ---- */
   .banner{
@@ -206,11 +206,11 @@
         <div class="greeting">
           <p>Good Morning,</p>
           <h1>John</h1>
-          <button class="location">📍 Nsukka, Enugu State ▾</button>
+          <button class="location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Nsukka, Enugu State ▾</button>
         </div>
         <div class="icon-row">
-          <button class="icon-btn bell" aria-label="Notifications">🔔<span class="dot"></span></button>
-          <button class="icon-btn acct" aria-label="Account">👤</button>
+          <button class="icon-btn bell" aria-label="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="dot"></span></button>
+          <button class="icon-btn acct" aria-label="Account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button>
         </div>
       </div>
 
@@ -218,41 +218,41 @@
         <div class="curve1"></div>
         <div class="curve2"></div>
         <div class="wallet-top">
-          <span class="wallet-icon">👛</span>
+          <span class="wallet-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path></svg></span>
           <span class="wallet-label">Transport Wallet</span>
-          <span class="wallet-chevron">›</span>
+          <span class="wallet-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
-        <div class="bus-illustration">🚌</div>
+        <div class="bus-illustration"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="12" rx="2"></rect><path d="M4 12h16"></path><circle cx="7.5" cy="19" r="1.5"></circle><circle cx="16.5" cy="19" r="1.5"></circle></svg></div>
         <div class="balance balance-display">₦45,000.00</div>
-        <button class="view-balance eye-toggle-btn">👁️ View Balance</button>
-        <button class="fund-btn fund-trigger">＋ Fund Card</button>
+        <button class="view-balance eye-toggle-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg> View Balance</button>
+        <button class="fund-btn fund-trigger"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Fund Card</button>
       </div>
     </header>
 
     <section class="features">
       <div class="feature-card" onclick="showScreen('bus-routes')">
-        <div class="feature-icon">🚍</div>
-        <h3>Book Bus <span class="arrow">›</span></h3>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="12" rx="2"></rect><path d="M4 12h16"></path><circle cx="7.5" cy="19" r="1.5"></circle><circle cx="16.5" cy="19" r="1.5"></circle></svg></div>
+        <h3>Book Bus <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span></h3>
         <p>Travel comfortably to your destination</p>
       </div>
       <div class="feature-card" onclick="showScreen('shuttle-routes')">
-        <div class="feature-icon">🎓</div>
-        <h3>Students Shuttle <span class="arrow">›</span></h3>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"></path></svg></div>
+        <h3>Students Shuttle <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span></h3>
         <p>Safe and reliable campus transport</p>
       </div>
     </section>
 
     <div class="wide-card" onclick="showScreen('services')">
-      <div class="feature-icon">🏢</div>
+      <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"></rect><path d="M9 22v-4h6v4"></path><line x1="8" y1="6" x2="8.01" y2="6"></line><line x1="12" y1="6" x2="12.01" y2="6"></line><line x1="16" y1="6" x2="16.01" y2="6"></line><line x1="8" y1="10" x2="8.01" y2="10"></line><line x1="12" y1="10" x2="12.01" y2="10"></line><line x1="16" y1="10" x2="16.01" y2="10"></line></svg></div>
       <div class="text">
-        <h3>Campus Services <span class="arrow">›</span></h3>
+        <h3>Campus Services <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span></h3>
         <p>Explore more services on campus</p>
       </div>
     </div>
 
     <div class="banner">
       <div class="rings"></div>
-      <span class="shield">🛡️</span>
+      <span class="shield"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg></span>
       <div class="text">
         <h4>Safe · Fast · Reliable</h4>
         <p>Your journey, our priority</p>
@@ -276,395 +276,4 @@
       <span><span class="legend-dot" style="background:var(--green-deep);"></span>Selected</span>
       <span><span class="legend-dot" style="background:#eee;"></span>Taken</span>
     </div>
-    <div class="bottom-action"><button class="fund-btn" style="width:100%;" id="seatContinueBtn" disabled onclick="showScreen('bus-confirm')">Continue</button></div>
-  </div>
-
-  <!-- ================= BOOK BUS: CONFIRM ================= -->
-  <div id="screen-bus-confirm" class="screen">
-    <div class="subheader"><button class="back" onclick="showScreen('bus-seats')">←</button><h2>Confirm &amp; Pay</h2></div>
-    <div class="summary-card" id="busConfirmSummary"></div>
-    <div class="bottom-action"><button class="fund-btn" style="width:100%;" onclick="payBus()">Pay &amp; Book</button></div>
-  </div>
-
-  <!-- ================= BOOK BUS: SUCCESS ================= -->
-  <div id="screen-bus-success" class="screen">
-    <div class="success-wrap">
-      <div class="success-icon">✅</div>
-      <h2>Booking Confirmed!</h2>
-      <p>Your ticket has been booked successfully</p>
-      <div class="summary-card" id="busSuccessSummary"></div>
-      <button class="fund-btn" onclick="showScreen('home')">Done</button>
-    </div>
-  </div>
-
-  <!-- ================= SHUTTLE: ROUTES ================= -->
-  <div id="screen-shuttle-routes" class="screen">
-    <div class="subheader"><button class="back" onclick="showScreen('home')">←</button><h2>Students Shuttle</h2></div>
-    <div class="list-wrap" id="shuttleRoutesList"></div>
-  </div>
-
-  <!-- ================= SHUTTLE: CONFIRM ================= -->
-  <div id="screen-shuttle-confirm" class="screen">
-    <div class="subheader"><button class="back" onclick="showScreen('shuttle-routes')">←</button><h2>Confirm &amp; Pay</h2></div>
-    <div class="summary-card" id="shuttleConfirmSummary"></div>
-    <div class="bottom-action"><button class="fund-btn" style="width:100%;" onclick="payShuttle()">Pay &amp; Book</button></div>
-  </div>
-
-  <!-- ================= SHUTTLE: SUCCESS ================= -->
-  <div id="screen-shuttle-success" class="screen">
-    <div class="success-wrap">
-      <div class="success-icon">✅</div>
-      <h2>Shuttle Booked!</h2>
-      <p>You're all set for your ride</p>
-      <div class="summary-card" id="shuttleSuccessSummary"></div>
-      <button class="fund-btn" onclick="showScreen('home')">Done</button>
-    </div>
-  </div>
-
-  <!-- ================= CAMPUS SERVICES ================= -->
-  <div id="screen-services" class="screen">
-    <div class="subheader"><button class="back" onclick="showScreen('home')">←</button><h2>Campus Services</h2></div>
-    <div class="list-wrap" id="servicesList"></div>
-  </div>
-
-  <!-- ================= WALLET TAB ================= -->
-  <div id="screen-wallet" class="screen">
-    <div class="subheader"><h2>Wallet</h2></div>
-    <div style="padding:0 18px 18px;">
-      <div class="wallet-card">
-        <div class="curve1"></div>
-        <div class="curve2"></div>
-        <div class="wallet-top">
-          <span class="wallet-icon">👛</span>
-          <span class="wallet-label">Transport Wallet</span>
-        </div>
-        <div class="bus-illustration">🚌</div>
-        <div class="balance balance-display">₦45,000.00</div>
-        <button class="view-balance eye-toggle-btn">👁️ View Balance</button>
-        <button class="fund-btn fund-trigger">＋ Fund Card</button>
-      </div>
-    </div>
-    <h3 style="padding:0 18px; margin:0 0 12px; color:var(--green-deep); font-size:15px;">Recent Activity</h3>
-    <div class="list-wrap" id="txList"></div>
-  </div>
-
-  <!-- ================= HISTORY TAB ================= -->
-  <div id="screen-history" class="screen">
-    <div class="subheader"><h2>Trip History</h2></div>
-    <div class="list-wrap" id="historyList"></div>
-  </div>
-
-  <!-- ================= MORE TAB ================= -->
-  <div id="screen-more" class="screen">
-    <div class="subheader"><h2>More</h2></div>
-    <div class="list-wrap" id="moreList"></div>
-  </div>
-
-  <nav id="bottomNav">
-    <button class="nav-item active" data-tab="home"><span class="ic">🏠</span>Home</button>
-    <button class="nav-item" data-tab="wallet"><span class="ic">👛</span>Wallet</button>
-    <button class="nav-item" data-tab="history"><span class="ic">🕘</span>History</button>
-    <button class="nav-item" data-tab="more"><span class="ic">⋯</span>More</button>
-  </nav>
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="sheet">
-    <h2>Fund Transport Wallet</h2>
-    <p>Choose an amount to add to your card</p>
-    <div class="amount-row">
-      <button class="chip" data-amt="1000">₦1,000</button>
-      <button class="chip" data-amt="5000">₦5,000</button>
-      <button class="chip" data-amt="10000">₦10,000</button>
-    </div>
-    <button class="confirm-btn" id="confirmFund">Add Funds</button>
-    <button class="cancel-link" id="cancelFund">Cancel</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-  /* ---------------- Data ---------------- */
-  const busRoutes = [
-    {id:'r1', from:'Nsukka', to:'Enugu', price:1500, duration:'1h 15m'},
-    {id:'r2', from:'Nsukka', to:'Onitsha', price:3000, duration:'2h 30m'},
-    {id:'r3', from:'Nsukka', to:'Awka', price:2500, duration:'2h'},
-    {id:'r4', from:'Nsukka', to:'Abuja', price:8000, duration:'6h'},
-  ];
-  const shuttleRoutes = [
-    {id:'s1', name:'Campus Gate → Hostel A', price:200},
-    {id:'s2', name:'Campus Gate → Hostel B', price:200},
-    {id:'s3', name:'Main Campus → Medical Campus', price:300},
-  ];
-  const servicesData = [
-    {icon:'📚', name:'Library Shuttle', desc:'Free rides to the library'},
-    {icon:'🏥', name:'Health Center', desc:'Book a ride to the clinic'},
-    {icon:'🛒', name:'Campus Store', desc:'Quick trip to the store'},
-  ];
-  const moreMenu = [
-    {icon:'👤', name:'Profile', desc:'Manage your personal info'},
-    {icon:'💳', name:'Payment Methods', desc:'Cards linked to your wallet'},
-    {icon:'🔔', name:'Notifications', desc:'Manage alerts'},
-    {icon:'❓', name:'Help & Support', desc:'Get assistance'},
-    {icon:'🚪', name:'Log Out', desc:'Sign out of ije'},
-  ];
-
-  /* ---------------- State ---------------- */
-  let state = { balance: 45000, trips: [], transactions: [] };
-  let balanceVisible = true;
-  let selected = { route:null, seat:null, takenSeats:null, shuttle:null };
-  const topLevel = ['home','wallet','history','more'];
-
-  /* ---------------- Helpers ---------------- */
-  function formatNaira(n){ return '₦' + n.toLocaleString('en-NG', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-  function formatDate(d){ return d.toLocaleDateString('en-NG',{day:'numeric',month:'short'}) + ' · ' + d.toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'}); }
-  function genTicket(){ return 'IJE-' + Math.random().toString(36).slice(2,7).toUpperCase(); }
-  function summaryRow(label,val){ return '<div class="summary-row"><span>'+label+'</span><span>'+val+'</span></div>'; }
-  function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
-
-  function renderBalance(){
-    document.querySelectorAll('.balance-display').forEach(el => el.textContent = balanceVisible ? formatNaira(state.balance) : '₦••••••');
-    document.querySelectorAll('.eye-toggle-btn').forEach(btn => btn.innerHTML = balanceVisible ? '👁️ View Balance' : '🙈 Hide Balance');
-  }
-
-  /* ---------------- Screen router ---------------- */
-  function showScreen(id){
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('screen-'+id).classList.add('active');
-    document.getElementById('bottomNav').style.display = topLevel.includes(id) ? 'flex' : 'none';
-    if(topLevel.includes(id)){
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.tab === id));
-    }
-    window.scrollTo(0,0);
-    if(id === 'wallet') renderWallet();
-    if(id === 'history') renderHistory();
-    if(id === 'bus-seats') renderSeats();
-    if(id === 'bus-confirm') renderBusConfirm();
-    if(id === 'shuttle-confirm') renderShuttleConfirm();
-  }
-
-  /* ---------------- Book Bus flow ---------------- */
-  function renderBusRoutes(){
-    document.getElementById('busRoutesList').innerHTML = busRoutes.map(r => `
-      <div class="list-item" onclick="selectRoute('${r.id}')">
-        <div class="li-left"><div class="li-icon">🚌</div>
-          <div><div class="li-name">${r.from} → ${r.to}</div><div class="li-sub">${r.duration}</div></div>
-        </div>
-        <div class="li-price">₦${r.price.toLocaleString()}</div>
-      </div>`).join('');
-  }
-  function selectRoute(id){
-    selected.route = busRoutes.find(r => r.id === id);
-    selected.takenSeats = null;
-    showScreen('bus-seats');
-  }
-  function pickTaken(){
-    const arr=[]; while(arr.length<3){ const n=1+Math.floor(Math.random()*12); if(!arr.includes(n)) arr.push(n); } return arr;
-  }
-  function renderSeats(){
-    const r = selected.route;
-    document.getElementById('busRouteSummary').innerHTML =
-      summaryRow('Route', r.from+' → '+r.to) + summaryRow('Duration', r.duration) + summaryRow('Fare', '₦'+r.price.toLocaleString());
-    selected.seat = null;
-    document.getElementById('seatContinueBtn').disabled = true;
-    if(!selected.takenSeats) selected.takenSeats = pickTaken();
-    const grid = document.getElementById('seatGrid');
-    grid.innerHTML = '';
-    for(let i=1; i<=12; i++){
-      const isTaken = selected.takenSeats.includes(i);
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'seat' + (isTaken ? ' taken' : '');
-      btn.textContent = i;
-      btn.disabled = isTaken;
-      btn.onclick = () => {
-        document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
-        btn.classList.add('selected');
-        selected.seat = i;
-        document.getElementById('seatContinueBtn').disabled = false;
-      };
-      grid.appendChild(btn);
-    }
-  }
-  function renderBusConfirm(){
-    const r = selected.route;
-    document.getElementById('busConfirmSummary').innerHTML =
-      summaryRow('Route', r.from+' → '+r.to) +
-      summaryRow('Seat', 'No. '+selected.seat) +
-      summaryRow('Wallet Balance', formatNaira(state.balance)) +
-      summaryRow('Total', formatNaira(r.price));
-  }
-  function payBus(){
-    const r = selected.route;
-    if(state.balance < r.price){ showToast('Insufficient balance — please fund your wallet'); return; }
-    state.balance -= r.price;
-    const ticket = genTicket();
-    state.transactions.unshift({desc:'Bus ticket: '+r.from+' → '+r.to, amount:r.price, type:'debit', date:new Date()});
-    state.trips.unshift({type:'Bus', title:r.from+' → '+r.to, sub:'Seat '+selected.seat, price:r.price, date:new Date(), code:ticket});
-    renderBalance();
-    document.getElementById('busSuccessSummary').innerHTML =
-      summaryRow('Route', r.from+' → '+r.to) +
-      summaryRow('Seat', 'No. '+selected.seat) +
-      summaryRow('Amount Paid', formatNaira(r.price)) +
-      summaryRow('Ticket Code', ticket);
-    showScreen('bus-success');
-  }
-
-  /* ---------------- Students Shuttle flow ---------------- */
-  function renderShuttleRoutes(){
-    document.getElementById('shuttleRoutesList').innerHTML = shuttleRoutes.map(s => `
-      <div class="list-item" onclick="selectShuttle('${s.id}')">
-        <div class="li-left"><div class="li-icon">🎓</div>
-          <div><div class="li-name">${s.name}</div><div class="li-sub">Campus shuttle</div></div>
-        </div>
-        <div class="li-price">₦${s.price.toLocaleString()}</div>
-      </div>`).join('');
-  }
-  function selectShuttle(id){
-    selected.shuttle = shuttleRoutes.find(s => s.id === id);
-    showScreen('shuttle-confirm');
-  }
-  function renderShuttleConfirm(){
-    const s = selected.shuttle;
-    document.getElementById('shuttleConfirmSummary').innerHTML =
-      summaryRow('Route', s.name) +
-      summaryRow('Wallet Balance', formatNaira(state.balance)) +
-      summaryRow('Total', formatNaira(s.price));
-  }
-  function payShuttle(){
-    const s = selected.shuttle;
-    if(state.balance < s.price){ showToast('Insufficient balance — please fund your wallet'); return; }
-    state.balance -= s.price;
-    const ticket = genTicket();
-    state.transactions.unshift({desc:'Shuttle: '+s.name, amount:s.price, type:'debit', date:new Date()});
-    state.trips.unshift({type:'Shuttle', title:s.name, sub:'Campus shuttle', price:s.price, date:new Date(), code:ticket});
-    renderBalance();
-    document.getElementById('shuttleSuccessSummary').innerHTML =
-      summaryRow('Route', s.name) +
-      summaryRow('Amount Paid', formatNaira(s.price)) +
-      summaryRow('Ticket Code', ticket);
-    showScreen('shuttle-success');
-  }
-
-  /* ---------------- Campus Services ---------------- */
-  function renderServices(){
-    document.getElementById('servicesList').innerHTML = servicesData.map(s => `
-      <div class="list-item" onclick="requestService('${s.name}')">
-        <div class="li-left"><div class="li-icon">${s.icon}</div>
-          <div><div class="li-name">${s.name}</div><div class="li-sub">${s.desc}</div></div>
-        </div>
-        <div class="arrow">›</div>
-      </div>`).join('');
-  }
-  function requestService(name){ showToast(name + " requested — you'll be notified when it arrives"); }
-
-  /* ---------------- Wallet tab ---------------- */
-  function renderWallet(){
-    renderBalance();
-    const list = document.getElementById('txList');
-    if(state.transactions.length === 0){
-      list.innerHTML = '<div class="empty-state"><div class="emoji">🧾</div><p>No transactions yet</p></div>';
-      return;
-    }
-    list.innerHTML = state.transactions.map(t => `
-      <div class="list-item" style="cursor:default;">
-        <div class="li-left">
-          <div class="li-icon" style="${t.type==='credit' ? '' : 'background:#fdeaea;color:var(--red);'}">${t.type==='credit' ? '＋' : '－'}</div>
-          <div><div class="li-name">${t.desc}</div><div class="li-sub">${formatDate(t.date)}</div></div>
-        </div>
-        <div class="li-price" style="${t.type==='credit' ? '' : 'color:var(--red);'}">${t.type==='credit' ? '+' : '-'}${formatNaira(t.amount)}</div>
-      </div>`).join('');
-  }
-
-  /* ---------------- History tab ---------------- */
-  function renderHistory(){
-    const list = document.getElementById('historyList');
-    if(state.trips.length === 0){
-      list.innerHTML = "<div class=\"empty-state\"><div class=\"emoji\">🎫</div><p>No trips yet.<br>Book your first ride!</p><button class=\"fund-btn\" onclick=\"showScreen('bus-routes')\">Book a Bus</button></div>";
-      return;
-    }
-    list.innerHTML = state.trips.map(t => `
-      <div class="list-item" style="cursor:default;">
-        <div class="li-left"><div class="li-icon">${t.type==='Bus' ? '🚌' : '🎓'}</div>
-          <div><div class="li-name">${t.title}</div><div class="li-sub">${t.sub} · ${formatDate(t.date)}</div></div>
-        </div>
-        <div class="li-price">${formatNaira(t.price)}</div>
-      </div>`).join('');
-  }
-
-  /* ---------------- More tab ---------------- */
-  function renderMore(){
-    document.getElementById('moreList').innerHTML = moreMenu.map(m => `
-      <div class="list-item" onclick="handleMoreClick('${m.name}')">
-        <div class="li-left"><div class="li-icon">${m.icon}</div>
-          <div><div class="li-name">${m.name}</div><div class="li-sub">${m.desc}</div></div>
-        </div>
-        <div class="arrow">›</div>
-      </div>`).join('');
-  }
-  function handleMoreClick(name){
-    if(name === 'Log Out'){
-      if(confirm('Log out of ije?')) location.reload();
-      return;
-    }
-    showToast(name + ' — coming soon');
-  }
-
-  /* ---------------- Nav + Fund modal (shared) ---------------- */
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => showScreen(item.dataset.tab));
-  });
-
-  const overlay = document.getElementById('overlay');
-  let selectedAmount = null;
-  document.querySelectorAll('.fund-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
-      overlay.classList.add('show');
-      selectedAmount = null;
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-    });
-  });
-  document.querySelectorAll('.eye-toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => { balanceVisible = !balanceVisible; renderBalance(); });
-  });
-  document.getElementById('cancelFund').addEventListener('click', () => overlay.classList.remove('show'));
-  overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('show'); });
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
-      selectedAmount = parseInt(chip.dataset.amt, 10);
-    });
-  });
-  document.getElementById('confirmFund').addEventListener('click', () => {
-    if(selectedAmount){
-      state.balance += selectedAmount;
-      state.transactions.unshift({desc:'Wallet top-up', amount:selectedAmount, type:'credit', date:new Date()});
-      renderBalance();
-      overlay.classList.remove('show');
-      showToast('Added ' + formatNaira(selectedAmount) + ' to wallet');
-      if(document.getElementById('screen-wallet').classList.contains('active')) renderWallet();
-    } else {
-      showToast('Please select an amount');
-    }
-  });
-
-  /* ---------------- Init ---------------- */
-  setTimeout(() => {
-    const splash = document.getElementById('splash');
-    if(splash) splash.classList.add('hide');
-  }, 900);
-  try{
-    renderBusRoutes();
-    renderShuttleRoutes();
-    renderServices();
-    renderMore();
-    renderBalance();
-  }catch(e){
-    console.error('ije init error:', e);
-  }
-</script>
-
-</body>
-</html>
+    <div class="bottom-action"><button class="fund-btn" style="width:100%;" id="seatContinueBtn" disabled onclick="showScreen('bus-confirm')">Continue</
