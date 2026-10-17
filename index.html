@@ -27,15 +27,17 @@
     justify-content:center;
     color:var(--ink);
   }
+  html, body{ height:100%; }
   .phone{
     width:100%;
     max-width:420px;
-    min-height:100vh;
+    height:100vh;
+    height:100dvh;
     background:var(--paper);
     display:flex;
     flex-direction:column;
     position:relative;
-    overflow-x:hidden;
+    overflow:hidden;
   }
 
   /* ---- Splash ---- */
@@ -48,31 +50,34 @@
   .splash-logo{ font-size:64px; font-weight:800; color:var(--yellow); letter-spacing:-2px; }
 
   /* ---- Screens ---- */
-  .screen{display:none; flex:1; flex-direction:column;}
+  .screen{display:none; flex:1; flex-direction:column; min-height:0; overflow-y:auto;}
   .screen.active{display:flex;}
+  #screen-home.active{overflow:hidden;}
 
   /* ---- Header (home) ---- */
-  header{ padding:16px 18px 0; position:relative; overflow:hidden; }
-  .header-bus-photo{ position:absolute; right:-14px; top:56px; width:195px; z-index:0; pointer-events:none; -webkit-mask-image:linear-gradient(to left, black 58%, transparent 98%); mask-image:linear-gradient(to left, black 58%, transparent 98%); filter:drop-shadow(0 6px 10px rgba(11,92,60,.18)); }
-  .header-road{ position:absolute; left:0; right:0; bottom:0; height:46px; z-index:0; pointer-events:none; overflow:hidden; }
+  header{ padding:10px 16px 0; position:relative; overflow:hidden; flex-shrink:0; }
+  .header-bus-photo{ position:absolute; right:-14px; top:30px; width:150px; z-index:0; pointer-events:none; -webkit-mask-image:linear-gradient(to left, black 58%, transparent 98%); mask-image:linear-gradient(to left, black 58%, transparent 98%); filter:drop-shadow(0 6px 10px rgba(11,92,60,.18)); }
+  .header-road{ position:absolute; left:0; right:0; bottom:0; height:30px; z-index:0; pointer-events:none; overflow:hidden; }
   .header-road svg{ width:100%; height:100%; display:block; }
 
   .brand-row{ display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:2; }
-  .brand{ display:flex; align-items:center; gap:10px; }
-  .brand-mark{ width:40px;height:40px; border-radius:11px; background:var(--green-deep); color:white; display:flex;align-items:center;justify-content:center; flex-shrink:0; }
-  .brand-text h2{ margin:0; font-size:15px; font-weight:800; color:var(--green-deep); line-height:1.15; letter-spacing:.2px; }
-  .brand-text .sub{ font-size:10px; font-weight:700; letter-spacing:2.5px; color:var(--green-mid); margin-top:1px; }
-  .brand-text .tag{ font-size:10px; color:var(--muted); margin-top:3px; }
+  .brand{ display:flex; align-items:center; gap:8px; }
+  .brand-mark{ width:32px;height:32px; border-radius:9px; background:var(--green-deep); color:white; display:flex;align-items:center;justify-content:center; flex-shrink:0; }
+  .brand-mark svg{ width:17px; height:17px; }
+  .brand-text h2{ margin:0; font-size:13px; font-weight:800; color:var(--green-deep); line-height:1.1; letter-spacing:.2px; }
+  .brand-text .sub{ font-size:8.5px; font-weight:700; letter-spacing:2px; color:var(--green-mid); margin-top:0; }
+  .brand-text .tag{ font-size:8.5px; color:var(--muted); margin-top:2px; }
 
-  .top-row{ display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:2; margin-top:16px; }
-  .greeting p{ margin:0; font-size:14px; color:var(--green-mid); }
-  .greeting h1{ margin:2px 0 6px; font-size:27px; font-weight:800; color:var(--green-deep); }
-  .location{ display:flex; align-items:center; gap:5px; font-size:13.5px; color:var(--green-mid); background:none; border:none; cursor:pointer; font-family:inherit; padding:0; }
-  .icon-row{ display:flex; gap:10px; align-items:center; }
-  .icon-btn{ width:38px;height:38px; border-radius:50%; display:flex;align-items:center;justify-content:center; position:relative; border:none; cursor:pointer; font-size:16px; }
+  .top-row{ display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:2; margin-top:8px; }
+  .greeting p{ margin:0; font-size:12px; color:var(--green-mid); }
+  .greeting h1{ margin:0 0 3px; font-size:19px; font-weight:800; color:var(--green-deep); }
+  .location{ display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--green-mid); background:none; border:none; cursor:pointer; font-family:inherit; padding:0; }
+  .icon-row{ display:flex; gap:8px; align-items:center; }
+  .icon-btn{ width:30px;height:30px; border-radius:50%; display:flex;align-items:center;justify-content:center; position:relative; border:none; cursor:pointer; font-size:14px; }
+  .icon-btn svg{ width:15px; height:15px; }
   .icon-btn.bell{background:#eaf2ec; color:var(--green-deep);}
   .icon-btn.acct{background:var(--green-deep); color:white;}
-  .icon-btn .dot{ position:absolute; top:5px;right:6px; width:8px;height:8px; background:var(--green-bright); border:2px solid var(--paper); border-radius:50%; }
+  .icon-btn .dot{ position:absolute; top:4px;right:5px; width:7px;height:7px; background:var(--green-bright); border:2px solid var(--paper); border-radius:50%; }
 
   /* ---- Subheader (sub-screens) ---- */
   .subheader{ display:flex; align-items:center; gap:12px; padding:18px; }
@@ -82,39 +87,45 @@
   /* ---- Wallet card ---- */
   .wallet-card{
     background:linear-gradient(155deg, var(--green-mid) 0%, var(--green-deep) 65%);
-    border-radius:22px; padding:22px; color:white; position:relative; overflow:hidden;
-    box-shadow:0 14px 26px -10px rgba(11,92,60,.5); min-height:220px;
+    border-radius:18px; padding:14px 16px; color:white; position:relative; overflow:hidden;
+    box-shadow:0 10px 18px -10px rgba(11,92,60,.5);
   }
   .wallet-card .curve1, .wallet-card .curve2{ position:absolute; border-radius:50%; opacity:.14; background:white; }
-  .curve1{ width:220px; height:220px; right:-90px; bottom:-110px; }
-  .curve2{ width:150px; height:150px; right:-40px; bottom:-90px; opacity:.1; }
-  .wallet-top{ display:flex; align-items:center; gap:10px; position:relative; z-index:2; }
-  .wallet-icon{ width:34px;height:34px; background:rgba(255,255,255,.2); border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:15px; flex-shrink:0; }
-  .wallet-label{ font-size:15px; font-weight:500; }
+  .curve1{ width:150px; height:150px; right:-70px; bottom:-80px; }
+  .curve2{ width:100px; height:100px; right:-30px; bottom:-60px; opacity:.1; }
+  .wallet-top{ display:flex; align-items:center; gap:8px; position:relative; z-index:2; }
+  .wallet-icon{ width:26px;height:26px; background:rgba(255,255,255,.2); border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:12px; flex-shrink:0; }
+  .wallet-icon svg{ width:13px; height:13px; }
+  .wallet-label{ font-size:12.5px; font-weight:500; }
   .wallet-chevron{ opacity:.8; margin-left:2px; }
   .bus-illustration{ position:absolute; top:18px; right:18px; width:88px; z-index:1; font-size:44px; }
-  .balance{ font-size:32px; font-weight:800; margin:20px 0 8px; letter-spacing:.3px; position:relative; z-index:2; }
+  .balance{ font-size:23px; font-weight:800; margin:10px 0 4px; letter-spacing:.3px; position:relative; z-index:2; }
   .view-balance{ background:none; border:none; color:white; opacity:.9; font-size:13.5px; display:flex; align-items:center; gap:6px; cursor:pointer; padding:0; margin-bottom:20px; position:relative; z-index:2; }
-  .fund-btn{ background:var(--yellow); color:var(--green-deep); border:none; padding:13px 24px; border-radius:30px; font-weight:700; font-size:14.5px; display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; position:relative; z-index:2; }
+  .fund-btn{ background:var(--yellow); color:var(--green-deep); border:none; padding:9px 20px; border-radius:30px; font-weight:700; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:7px; cursor:pointer; position:relative; z-index:2; }
   .fund-btn:active{transform:scale(.97);}
   .fund-btn:disabled{opacity:.5; cursor:not-allowed;}
-  .fund-btn.light{ background:white; color:var(--green-deep); width:100%; justify-content:space-between; padding:13px 18px; }
-  .fund-btn.light .left{ display:flex; align-items:center; gap:8px; }
-  .wallet-card-icon{ position:absolute; top:22px; right:22px; width:40px;height:40px; background:rgba(255,255,255,.2); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; }
+  .fund-btn.light{ background:white; color:var(--green-deep); width:100%; justify-content:space-between; padding:10px 14px; }
+  .fund-btn.light .left{ display:flex; align-items:center; gap:7px; }
+  .fund-btn svg{ width:13px; height:13px; }
+  .wallet-card-icon{ position:absolute; top:14px; right:14px; width:30px;height:30px; background:rgba(255,255,255,.2); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; }
+  .wallet-card-icon svg{ width:14px; height:14px; }
 
   /* ---- Feature cards ---- */
-  .features{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:18px 18px 0; }
+  .features{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; padding:8px 16px 0; flex:1; min-height:0; }
   .feature-card{
     background:var(--card);
-    border-radius:18px; padding:18px 16px; position:relative; overflow:hidden;
-    border:1px solid #eaf2ec; cursor:pointer; transition:transform .15s ease; min-height:150px;
+    border-radius:14px; padding:8px 12px; position:relative; overflow:hidden;
+    border:1px solid #eaf2ec; cursor:pointer; transition:transform .15s ease;
+    display:flex; flex-direction:column; justify-content:center; min-height:0;
   }
   .feature-card:active{transform:scale(.97);}
   .feature-card::after{ content:""; position:absolute; right:-16px;bottom:-16px; width:80px;height:80px; background:var(--yellow-soft); border-radius:50% 50% 10% 50%; opacity:.85; }
-  .feature-icon{ width:48px;height:48px; background:#e3f3e8; border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:22px; margin-bottom:12px; position:relative; z-index:1; color:var(--green-deep); }
-  .feature-card h3{ margin:0 0 6px; font-size:16px; font-weight:700; color:var(--green-deep); display:flex; align-items:center; gap:4px; position:relative; z-index:1; }
-  .feature-card p{ margin:0; font-size:12.5px; color:var(--muted); position:relative; z-index:1; max-width:85%; line-height:1.4; }
+  .feature-icon{ width:34px;height:34px; background:#e3f3e8; border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:16px; margin-bottom:6px; position:relative; z-index:1; color:var(--green-deep); }
+  .feature-icon svg{ width:17px; height:17px; }
+  .feature-card h3{ margin:0 0 2px; font-size:13px; font-weight:700; color:var(--green-deep); display:flex; align-items:center; gap:3px; position:relative; z-index:1; }
+  .feature-card p{ margin:0; font-size:10.5px; color:var(--muted); position:relative; z-index:1; max-width:92%; line-height:1.3; }
   .arrow{color:var(--green-mid); font-size:16px; font-weight:400;}
+  .arrow svg{ width:13px; height:13px; }
 
   /* ---- Wide card (campus services on home) ---- */
   .wide-card{
@@ -184,9 +195,12 @@
   .empty-state p{ margin:0 0 16px; line-height:1.5; font-size:13.5px; }
 
   /* ---- Bottom nav ---- */
-  nav{ margin-top:auto; display:flex; justify-content:space-around; padding:12px 0 22px; border-top:1px solid #e7f0ea; background:var(--card); position:sticky; bottom:0; }
-  .nav-item{ display:flex; flex-direction:column; align-items:center; gap:4px; font-size:11px; color:#9aa9a0; background:none; border:none; cursor:pointer; font-family:inherit; }
-  .nav-item .ic{font-size:19px;}
+  nav{ flex-shrink:0; display:flex; justify-content:space-around; padding:8px 0 14px; border-top:1px solid #e7f0ea; background:var(--card); position:sticky; bottom:0; }
+  .nav-item{ display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:#9aa9a0; background:none; border:none; cursor:pointer; font-family:inherit; }
+  .nav-item .ic{font-size:17px;}
+  .nav-item .ic svg{ width:17px; height:17px; }
+  .home-wave{ flex-shrink:0; height:34px; position:relative; overflow:hidden; margin-top:4px; }
+  .home-wave svg{ width:100%; height:100%; display:block; }
   .nav-item.active{color:var(--green-deep); font-weight:700;}
   .nav-item.active .ic{color:var(--green-deep);}
 
@@ -286,6 +300,13 @@
         <p>Find nearby terminals and boarding points</p>
       </div>
     </section>
+
+    <div class="home-wave">
+      <svg viewBox="0 0 400 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 34 Q 100 0 400 14 L400 34 Z" fill="#127a4d"></path>
+        <path d="M0 34 Q 140 10 400 22 L400 34 Z" fill="#0b5c3c"></path>
+      </svg>
+    </div>
   </div>
 
   <!-- ================= BOOK BUS: ROUTES ================= -->
